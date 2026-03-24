@@ -1,25 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrderService } from '../services/OrderService';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { WebsocketService } from '../services/websocketClientService';
+import { Subscription } from 'rxjs';
+import { WebSocketServiceSockjs } from '../services/WebSocketService';
 
 @Component({
   selector: 'app-create-order',
-  standalone: false,
+  standalone: false,  // Signals are often used in standalone components
   templateUrl: './create-order.html',
   styleUrl: './create-order.scss',
 })
-export class CreateOrder {
- userId: number = 0;
+export class CreateOrder implements OnInit, OnDestroy{
+  orderForm: FormGroup;
   type: string = 'ORDER_CREATED';
   response: string = '';
 
-  constructor(private orderService: OrderService) {}
+  orderModel = { userId: '', totalAmount:'', currency:'' };
+
+  messages: string[] = [];
+  private messagesSub!: Subscription;
+
+
+  constructor(private orderService: OrderService, private fBuilder: FormBuilder, private wsService: WebsocketService, private wsSockjs: WebSocketServiceSockjs) {
+        this.orderForm = this.fBuilder.group({
+    userId: ['', Validators.required], // control with initial value and validator
+    totalAmount: ['',  Validators.required],
+    currency: ['',  Validators.required]
+  });
+  }
+  ngOnDestroy(): void {
+    this.messagesSub.unsubscribe();
+  }
+  ngOnInit(): void {
+    console.log("onli")
+  // this.messagesSub = this.wsService.connect().subscribe(
+  //       message => this.messages.push(message.content),
+  //       err => console.error(err),
+  //       () => console.log('connection complete')
+  //   );
+  this.wsSockjs.connect()
+  }
+
+
 
   createOrder() {
     this.orderService.createOrder({
-      userId: this.userId,
-      type: this.type
+      userId: this.orderForm.get('userId')?.value
     }).subscribe(res => {
       this.response = 'Order Created!';
     });
+  }
+
+   resetForm() {
+
   }
 }

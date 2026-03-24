@@ -1,12 +1,17 @@
 <p>create-order works!</p>
-<h2>🧾 Create Order</h2>
+<h2>Create Order</h2>
 
-<!-- <label>User ID:</label>
-<input [(ngModel)]="userId" type="number"><br><br>
+<form [formGroup]="orderForm" (submit)="createOrder();">
+    <label>User ID:</label>
+    <input class="form-control" name="userId" formControlName="userId" type="number" /><br><br>
 
-<label>Type:</label>
-<input [(ngModel)]="type"><br><br> -->
+    <label>Total Amount:</label>
+    <input class="form-control" formControlName="totalAmount" type="number" /><br><br>
 
-<button (click)="createOrder()">Create</button>
+    <label>Currency:</label>
+    <input class="form-control" formControlName="currency" type="text" /><br><br>
 
+    <button type="submit">Create</button>
+
+</form>
 <p>{{ response }}</p>
