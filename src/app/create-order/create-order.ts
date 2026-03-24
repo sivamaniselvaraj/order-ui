@@ -32,7 +32,7 @@ export class CreateOrder implements OnInit, OnDestroy{
     this.messagesSub.unsubscribe();
   }
   ngOnInit(): void {
-    console.log("onli")
+  
   // this.messagesSub = this.wsService.connect().subscribe(
   //       message => this.messages.push(message.content),
   //       err => console.error(err),
@@ -50,8 +50,20 @@ export class CreateOrder implements OnInit, OnDestroy{
       console.log(res)
       this.response = 'Order Created! Order #: ' + res.orderId;
     });
-    let notificationMessage = this.wsSockjs.getMessages();
-    console.log("notificationMessage. " , notificationMessage)
+
+      this.messagesSub = this.wsSockjs.getMessages().subscribe({
+        next: (value) => {
+          this.messages.push(value.content)
+        },
+        error: (error) => {
+          console.error(error)
+        },
+        complete: () => {
+          console.log('connection complete')
+        }
+      }
+    );
+    console.log("notification messages ", this.messages)
   }
 
    resetForm() {
