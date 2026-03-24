@@ -4,9 +4,19 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class OrderService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   createOrder(data: any) {
-    return this.http.post('http://localhost:8081/orders', data);
+    const key = this.generateIdempotencyKey();
+    localStorage.setItem('lastOrderKey', key);
+    return this.http.post('http://localhost:8081/orders', data, {
+      headers: {
+        'Idempotency-Key': key
+      }
+    });
+  }
+
+  generateIdempotencyKey(): string {
+    return crypto.randomUUID();
   }
 }

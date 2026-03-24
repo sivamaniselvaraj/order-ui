@@ -11,18 +11,23 @@ export class WebSocketServiceSockjs {
 
   connect() {
     const socket = new SockJS('http://localhost:8083/ws');
-    console.log(socket)
     this.stompClient = Stomp.over(socket);
-
-    console.log(this.stompClient);
 
     this.stompClient.connect({_urlInfo:{sameOrigin:true}}, () => {
       this.stompClient.subscribe('/topic/notifications', (message: any) => {
-        console.log("message ", message)
         this.subject.next(JSON.parse(message.body));
       });
+    }, () => {
+      console.log('failed');
     });
   }
+
+    disconnect() {
+            if (this.stompClient != null) {
+                this.stompClient.disconnect();
+            }
+            console.log("Disconnected");
+        }
 
   getMessages() {
     return this.subject.asObservable();

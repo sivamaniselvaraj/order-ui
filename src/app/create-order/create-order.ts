@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrderService } from '../services/OrderService';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { WebsocketService } from '../services/websocketClientService';
 import { Subscription } from 'rxjs';
 import { WebSocketServiceSockjs } from '../services/WebSocketService';
 
@@ -22,7 +21,7 @@ export class CreateOrder implements OnInit, OnDestroy{
   private messagesSub!: Subscription;
 
 
-  constructor(private orderService: OrderService, private fBuilder: FormBuilder, private wsService: WebsocketService, private wsSockjs: WebSocketServiceSockjs) {
+  constructor(private orderService: OrderService, private fBuilder: FormBuilder, private wsSockjs: WebSocketServiceSockjs) {
         this.orderForm = this.fBuilder.group({
     userId: ['', Validators.required], // control with initial value and validator
     totalAmount: ['',  Validators.required],
@@ -47,9 +46,12 @@ export class CreateOrder implements OnInit, OnDestroy{
   createOrder() {
     this.orderService.createOrder({
       userId: this.orderForm.get('userId')?.value
-    }).subscribe(res => {
-      this.response = 'Order Created!';
+    }).subscribe((res:any) => {
+      console.log(res)
+      this.response = 'Order Created! Order #: ' + res.orderId;
     });
+    let notificationMessage = this.wsSockjs.getMessages();
+    console.log("notificationMessage. " , notificationMessage)
   }
 
    resetForm() {
