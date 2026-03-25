@@ -9,9 +9,75 @@
     <input class="form-control" formControlName="totalAmount" type="number" /><br><br>
 
     <label>Currency:</label>
-    <input class="form-control" formControlName="currency" type="text" /><br><br>
+    <input class="form-control" formControlName="currency" type="text" value="USD" /><br><br>
 
     <button type="submit">Create</button>
 
 </form>
 <p>{{ response }}</p>
+
+
+
+<h2>🛍️ Item List</h2>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Action</th>
+  </tr>
+
+  <tr *ngFor="let item of items">
+    <td>{{ item.name }}</td>
+    <td>₹ {{ item.price }}</td>
+    <td>
+      <button (click)="addToCart(item)">Add</button>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<h2>🛒 Cart</h2>
+
+<table border="1" *ngIf="cart.length > 0">
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Qty</th>
+    <th>Subtotal</th>
+    <th>Actions</th>
+  </tr>
+
+  <tr *ngFor="let item of cart; let i = index">
+    <td>{{ item.name }}</td>
+    <td>₹ {{ item.price }}</td>
+
+    <!-- 🔢 Quantity Controls -->
+    <td>
+      <button (click)="decreaseQuantity(i)">➖</button>
+      {{ item.quantity }}
+      <button (click)="increaseQuantity(i)">➕</button>
+    </td>
+
+    <!-- 💰 Subtotal -->
+    <td>₹ {{ item.price * item.quantity }}</td>
+
+    <td>
+      <button (click)="removeItem(item)">❌ Remove</button>
+    </td>
+  </tr>
+</table>
+
+<p *ngIf="cart.length === 0">Cart is empty</p>
+
+<button (click)="clearCart()" [disabled]="cart.length === 0">
+ Clear Cart
+</button>
+<hr>
+
+<h3>Total: ₹ {{ getTotal() }}</h3>
+
+<button (click)="createOrder()" [disabled]="cart.length === 0">
+  🚀 Place Order
+</button>

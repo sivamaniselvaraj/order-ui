@@ -61,4 +61,7 @@ For more information on using the Angular CLI, including detailed command refere
 
 docker build -t angular-docker-image .
 
-docker run -p 8080:80 angular-docker-image
+# Remove the stopped container
+docker rm order-ui
+
+docker run --name order-ui -p 8080:80 angular-docker-image

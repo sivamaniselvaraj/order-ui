@@ -4,7 +4,7 @@ import * as Stomp from 'stompjs';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class WebSocketServiceSockjs {
+export class WebSocketService {
 
   private stompClient: any;
   private subject = new Subject<any>();

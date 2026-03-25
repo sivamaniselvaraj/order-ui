@@ -1,0 +1,26 @@
+<h2>📡 Live Dashboard</h2>
+
+<!-- 🚀 Navigation Button -->
+<button routerLink="/create">
+  ➕ Create New Order
+</button>
+
+<br><br>
+
+
+<table border="1">
+  <tr>
+    <th>Order ID</th>
+    <th>Status</th>
+  </tr>
+
+  <tr *ngFor="let order of getOrderList()">
+    <td>{{ order?.orderId }}</td>
+    <td [ngStyle]="{
+        color: order.overallStatus === 'FAILED' ? 'red' :
+               order.overallStatus === 'SENT' ? 'green' : 'orange'
+      }">
+      {{ order.overallStatus }}
+    </td>
+  </tr>
+</table>
