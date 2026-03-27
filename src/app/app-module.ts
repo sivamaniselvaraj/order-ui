@@ -8,6 +8,7 @@ import { CreateOrder } from './create-order/create-order';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IdempotencyInterceptor } from './interceptors/idempotencyInterceptor';
 import { Dashboard } from './dashboard/dashboard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { Dashboard } from './dashboard/dashboard';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    NgbModule
   ],
   providers: [
   //   {
