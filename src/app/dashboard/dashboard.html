@@ -17,10 +17,10 @@
   <tr *ngFor="let order of getOrderList()">
     <td>{{ order?.orderId }}</td>
     <td [ngStyle]="{
-        color: order.overallStatus === 'FAILED' ? 'red' :
-               order.overallStatus === 'SENT' ? 'green' : 'orange'
+        color: order.orderStatus === 'FAILED' ? 'red' :
+               order.orderStatus === 'SENT' ? 'green' : 'orange'
       }">
-      {{ order.overallStatus }}
+      {{ order.orderStatus }}
     </td>
   </tr>
 </table>

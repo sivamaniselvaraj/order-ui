@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrderService } from '../services/OrderService';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { WebSocketService } from '../services/WebSocketService';
 import { Item } from '../models/Item';
 import { CartItem } from '../models/CartItem';
+import { OrderStatus } from '../models/OrderStatus';
 
 @Component({
   selector: 'app-create-order',
@@ -16,11 +16,10 @@ import { CartItem } from '../models/CartItem';
 
 export class CreateOrder implements OnInit, OnDestroy{
 
-  orderForm: FormGroup;
+ 
   type: string = 'ORDER_CREATED';
   response: string = '';
 
-  orderModel = { userId: '', totalAmount:'', currency:'' };
 
   messages: string[] = [];
   private messagesSub!: Subscription;
@@ -33,15 +32,8 @@ export class CreateOrder implements OnInit, OnDestroy{
 
   cart: CartItem[] = [];
 
-  
+  constructor(private orderService: OrderService, private wsSockjs: WebSocketService) {
 
-
-  constructor(private orderService: OrderService, private fBuilder: FormBuilder, private wsSockjs: WebSocketService) {
-        this.orderForm = this.fBuilder.group({
-    userId: ['', Validators.required], // control with initial value and validator
-    totalAmount: ['',  Validators.required],
-    currency: ['USD',  Validators.required]
-  });
   }
 
   
@@ -94,16 +86,17 @@ export class CreateOrder implements OnInit, OnDestroy{
   placeOrder() {
 
     const orderPayload = {
-      userId: this.orderForm.get('userId')?.value,
+      customerId: '123',
       items: this.cart,
       totalAmount: this.getTotal()
     };
 
     this.orderService.createOrder(orderPayload)
       .subscribe({
-        next: () => {
+        next: (res:any) => {
+          this.response = 'Order Created! Order #: ' + res.orderId;
+          this.clearCart() // clear cart
           alert('✅ Order placed successfully!');
-          this.cart = []; // clear cart
         },
         error: () => {
           alert('❌ Failed to place order');
@@ -139,13 +132,13 @@ export class CreateOrder implements OnInit, OnDestroy{
   //   );
   }
 
-  createOrder() {
-    this.orderService.createOrder({
-      userId: this.orderForm.get('userId')?.value
-    }).subscribe((res) => {
-      this.response = 'Order Created! Order #: ';
-    });
-  }
+  // createOrder() {
+  //   this.orderService.createOrder({
+  //     userId: 1234
+  //   }).subscribe((res) => {
+  //     this.response = 'Order Created! Order #: ';
+  //   });
+  // }
 
    resetForm() {
 

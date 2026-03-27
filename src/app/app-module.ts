@@ -1,6 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing-module';
@@ -19,9 +18,7 @@ import { Dashboard } from './dashboard/dashboard';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    CommonModule,
-    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [
   //   {

@@ -1,22 +1,7 @@
-<p>create-order works!</p>
+
 <h2>Create Order</h2>
 
-<form [formGroup]="orderForm" (submit)="createOrder();">
-    <label>User ID:</label>
-    <input class="form-control" name="userId" formControlName="userId" type="number" /><br><br>
-
-    <label>Total Amount:</label>
-    <input class="form-control" formControlName="totalAmount" type="number" /><br><br>
-
-    <label>Currency:</label>
-    <input class="form-control" formControlName="currency" type="text" value="USD" /><br><br>
-
-    <button type="submit">Create</button>
-
-</form>
 <p>{{ response }}</p>
-
-
 
 <h2>🛍️ Item List</h2>
 
@@ -78,6 +63,6 @@
 
 <h3>Total: ₹ {{ getTotal() }}</h3>
 
-<button (click)="createOrder()" [disabled]="cart.length === 0">
+<button (click)="placeOrder()" [disabled]="cart.length === 0">
   🚀 Place Order
 </button>
