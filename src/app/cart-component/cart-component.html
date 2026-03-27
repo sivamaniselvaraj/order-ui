@@ -1,0 +1,111 @@
+<div class="container mt-4">
+<!-- Cart -->
+  <div class="card">
+    <div class="card-header bg-dark text-white">
+      🛒 Cart
+    </div>
+
+    <div class="card-body" *ngIf="cart.length > 0; else emptyCart">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of cart; let i = index">
+
+            <td>{{ item.name }}</td>
+
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm"
+                        (click)="decreaseQuantity(i)">-</button>
+
+                <span class="px-2">{{ item.quantity }}</span>
+
+                <button class="btn btn-outline-secondary btn-sm"
+                        (click)="increaseQuantity(i)">+</button>
+              </div>
+            </td>
+
+            <td>₹ {{ item.price * item.quantity }}</td>
+
+            <td>
+              <button class="btn btn-danger btn-sm"
+                      (click)="removeItem(item)">
+                Remove
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <ng-template #emptyCart>
+      <p class="text-muted">Cart is empty</p>
+    </ng-template>
+  </div>
+
+  <!-- Total -->
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <h4>Total: ₹ {{ getTotal() }}</h4>
+
+    <button class="btn btn-primary"
+            [disabled]="cart.length === 0"
+            (click)="openConfirmModal(confirmModal)">
+      🚀 Place Order
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+  <div class="spinner-border text-primary"></div>
+</div>
+
+</div>
+
+<!-- Modal -->
+<ng-template #confirmModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm Order</h5>
+    <button type="button" class="btn-close"
+            (click)="modal.dismiss()"></button>
+  </div>
+
+  <div class="modal-body">
+    Are you sure you want to place this order?
+    <br><br>
+    <strong>Total: ₹ {{ getTotal() }}</strong>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button class="btn btn-success"
+            (click)="confirmOrder(modal)">
+      Confirm
+    </button>
+  </div>
+</ng-template>
+
+<ng-template>
+  <!-- toaster to show the message-->
+
+  @if (showSuccess) {
+  <ngb-toast 
+  header="Success!" 
+  class="bg-success text-white position-fixed bottom-0 end-0 m-3" 
+  (hidden)="showSuccess = false"
+  style="z-index: 1200">
+    <!-- Content here -->
+  </ngb-toast>
+}
+
+</ng-template>

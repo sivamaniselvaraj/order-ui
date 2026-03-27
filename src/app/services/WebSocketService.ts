@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { Subject } from 'rxjs';
+import { NotificationService } from './NotificationService';
 
 @Injectable({ providedIn: 'root' })
-export class WebSocketService {
+export class WebSocketService{
 
   private stompClient: any;
-  private subject = new Subject<any>();
+
+  constructor(private notificationService: NotificationService){
+
+  }
 
   connect() {
     const socket = new SockJS('http://localhost:8083/ws');
@@ -15,7 +19,7 @@ export class WebSocketService {
 
     this.stompClient.connect({_urlInfo:{sameOrigin:true}}, () => {
       this.stompClient.subscribe('/topic/notifications', (message: any) => {
-        this.subject.next(JSON.parse(message.body));
+        this.notificationService.push(JSON.parse(message.body));
       });
     }, () => {
       console.log('failed');
@@ -29,7 +33,4 @@ export class WebSocketService {
             console.log("Disconnected");
         }
 
-  getMessages() {
-    return this.subject.asObservable();
-  }
 }

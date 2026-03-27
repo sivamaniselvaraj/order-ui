@@ -9,12 +9,14 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IdempotencyInterceptor } from './interceptors/idempotencyInterceptor';
 import { Dashboard } from './dashboard/dashboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CartComponent } from './cart-component/cart-component';
 
 @NgModule({
   declarations: [
     App,
     CreateOrder,
-    Dashboard
+    Dashboard,
+    CartComponent
   ],
   imports: [
     BrowserModule,

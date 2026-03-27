@@ -1,68 +1,40 @@
+<div class="container mt-4">
 
-<h2>Create Order</h2>
+  <!-- Items Card -->
+  <h2 class="mb-4">🛒 Item List</h2>
 
-<p>{{ response }}</p>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let item of items">
+      
+      <div class="card mb-4 shadow-sm h-100">
+        
+        <img 
+          [src]="item.image" 
+          class="card-img-top" 
+          alt="{{ item.name }}"
+        >
 
-<h2>🛍️ Item List</h2>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ item.name }}</h5>
 
-<table border="1">
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Action</th>
-  </tr>
+          <p class="card-text text-muted">
+            {{ item.description | slice:0:80 }}...
+          </p>
 
-  <tr *ngFor="let item of items">
-    <td>{{ item.name }}</td>
-    <td>₹ {{ item.price }}</td>
-    <td>
-      <button (click)="addToCart(item)">Add</button>
-    </td>
-  </tr>
-</table>
+          <h6 class="mt-auto text-primary">
+            ₹{{ item.price }}
+          </h6>
 
-<hr>
+          <button class="btn btn-outline-primary mt-2" (click)="addToCart(item)">
+            Add to Cart
+          </button>
+        </div>
 
-<h2>🛒 Cart</h2>
+      </div>
 
-<table border="1" *ngIf="cart.length > 0">
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Qty</th>
-    <th>Subtotal</th>
-    <th>Actions</th>
-  </tr>
+    </div>
+  </div>
 
-  <tr *ngFor="let item of cart; let i = index">
-    <td>{{ item.name }}</td>
-    <td>₹ {{ item.price }}</td>
+  
 
-    <!-- 🔢 Quantity Controls -->
-    <td>
-      <button (click)="decreaseQuantity(i)">➖</button>
-      {{ item.quantity }}
-      <button (click)="increaseQuantity(i)">➕</button>
-    </td>
 
-    <!-- 💰 Subtotal -->
-    <td>₹ {{ item.price * item.quantity }}</td>
-
-    <td>
-      <button (click)="removeItem(item)">❌ Remove</button>
-    </td>
-  </tr>
-</table>
-
-<p *ngIf="cart.length === 0">Cart is empty</p>
-
-<button (click)="clearCart()" [disabled]="cart.length === 0">
- Clear Cart
-</button>
-<hr>
-
-<h3>Total: ₹ {{ getTotal() }}</h3>
-
-<button (click)="placeOrder()" [disabled]="cart.length === 0">
-  🚀 Place Order
-</button>
