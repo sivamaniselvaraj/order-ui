@@ -17,7 +17,7 @@ export class WebSocketService{
     const socket = new SockJS('http://localhost:8083/ws');
     this.stompClient = Stomp.over(socket);
 
-    this.stompClient.connect({_urlInfo:{sameOrigin:true}}, () => {
+    this.stompClient.connect({}, () => {
       this.stompClient.subscribe('/topic/notifications', (message: any) => {
         this.notificationService.push(JSON.parse(message.body));
       });

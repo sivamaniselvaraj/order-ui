@@ -10,6 +10,9 @@ export class CartService {
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
   cart$ = this.cartSubject.asObservable();
 
+  private cartCount = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCount.asObservable();
+
   private cart: CartItem[] = [];
 
   addItem(item: any) {
@@ -22,6 +25,7 @@ export class CartService {
     }
 
     this.cartSubject.next([...this.cart]);
+    this.updateCartCount();
   }
 
   increase(index: number) {
@@ -43,11 +47,13 @@ export class CartService {
     if (index !== -1) {
       this.cart.splice(index, 1);
     }
+    this.updateCartCount();
   }
 
   clear() {
     this.cart = [];
     this.cartSubject.next([]);
+    this.updateCartCount();
   }
 
   getTotal(): number {
@@ -56,5 +62,11 @@ export class CartService {
 
   getItems() {
     return this.cart;
+  }
+  
+   private updateCartCount() {
+    let total = 0;
+    this.cart.forEach(qty => total += qty.quantity);
+    this.cartCount.next(total);
   }
 }

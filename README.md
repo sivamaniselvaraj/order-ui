@@ -59,11 +59,15 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 
-npm run build
+# npm run build
 
 docker build -t angular-docker-image .
+or
+npm run docker-build
 
 # Remove the stopped container
 docker rm order-ui
 
 docker run --name order-ui -p 8080:80 angular-docker-image
+or 
+npm run docker-run

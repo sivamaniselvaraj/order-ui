@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "docker-build": "docker build -t angular-docker-image .",
+    "docker-run": "docker run --name order-ui -p 8080:80 angular-docker-image"
   },
   "prettier": {
     "printWidth": 100,

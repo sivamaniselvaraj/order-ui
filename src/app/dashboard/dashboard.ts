@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { WebSocketService } from '../services/WebSocketService';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { OrderStatus } from '../models/OrderStatus';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '../services/NotificationService';
@@ -11,38 +10,51 @@ import { Notification } from '../models/Notification';
   standalone: false,
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Dashboard implements OnInit{
-orders: any = {};
+export class Dashboard implements OnInit, OnDestroy {
 
-private messagesSub!: Subscription;
-messages: string[] = [];
+  private messagesSub!: Subscription;
+  messages: any[] = [];
 
-notifications: Notification[] = [];
-  latestMessage: string = '';
+  notifications: Notification[] = [];
 
-  constructor(private wsService: WebSocketService, private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService, private ngZone: NgZone) { }
+  ngOnDestroy(): void {
+    if (this.messagesSub != null) {
+      this.messagesSub.unsubscribe();
+    }
+  }
+
 
   ngOnInit() {
-    this.wsService.connect();
+    this.getMessagesFromWS()
+  }
 
-    // this.wsService.getMessages().subscribe((data) => {
-    //   this.orders[data.orderId] = data;
-    // });
-
-          this.messagesSub = this.notificationService.notifications$.subscribe(data => {
-          this.notifications.unshift(data);
-          console.log("notification service message ", data)
-          this.orders[data.orderId] = {orderId:data.orderId, orderStatus: data.message};
-          //this.getOrderList();
-           //console.log("notification messages ", this.messages)
-      }
+  async getMessagesFromWS() {
+    this.messagesSub = this.notificationService.notifications$.subscribe(data => {
+      if (!data) return;
+      this.ngZone.run(() => {
+      const newMessage = { orderId: data.orderId, orderStatus: data.message };
+        const existing = this.messages.find(o => o.orderId === newMessage.orderId);
+        
+        if(existing){
+        this.messages.map(o =>
+          o.orderId === newMessage.orderId ? { ...o, orderStatus: newMessage.orderStatus } : o
+        );
+         }
+        else{
+           this.messages.push(newMessage);
+         }
+      })
+      console.log("getMessagesFromWS ", this.getNotificationList());
+    }
     );
   }
 
-  getOrderList(): OrderStatus[] {
-    console.log(this.orders)
-    return this.orders;
+  getNotificationList(): OrderStatus[] {
+    console.log(this.messages)
+    return this.messages;
     //return Object.values(this.orders);
   }
 }

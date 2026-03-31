@@ -7,7 +7,6 @@
       ➕ Create Order
     </a> -->
   </div>
-   ORDERS {{orders | json}}
   <div class="card">
     <div class="card-body">
 
@@ -20,7 +19,7 @@
         </thead>
 
         <tbody>
-          @for (order of getOrderList(); track order){
+          @for (order of getNotificationList() ; track order.orderId;){
           <tr>
 
             <td>{{ order.orderId }}</td>
@@ -41,25 +40,6 @@
         </tbody>
 
       </table>
-
-    </div>
-  </div>
-
-    <!-- Notification List -->
-     {{notifications}}
-  <div class="list-group mt-3">
-    <div class="list-group-item" *ngFor="let n of notifications">
-      
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">{{ n.message }}</h6>
-        <small>{{ n.createdAt | date:'short' }}</small>
-      </div>
-
-      <p class="mb-1">Order ID: {{ n.orderId }}</p>
-
-      <span class="badge bg-warning">
-        {{ n.deliveryStatuses[0]?.deliveryStatus }}
-      </span>
 
     </div>
   </div>

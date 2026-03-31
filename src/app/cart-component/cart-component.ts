@@ -43,7 +43,7 @@ openConfirmModal(content: any) {
           this.showSuccess = true;
           this.loading = true;
           this.order_number = res.order_id;
-          
+          this.cartService.clear()
           setTimeout(()=>{
               this.showSuccess=false
              this.loading=false
