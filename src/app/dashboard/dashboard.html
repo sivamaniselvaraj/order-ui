@@ -2,24 +2,25 @@
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>📡 Live Order Status</h2>
-
     <!-- <a routerLink="/create" class="btn btn-success">
       ➕ Create Order
     </a> -->
   </div>
   <div class="card">
     <div class="card-body">
-
+     
       <table class="table table-bordered table-hover">
         <thead class="table-light">
           <tr>
             <th>Order ID</th>
             <th>Status</th>
+            <th>Created On</th>
           </tr>
         </thead>
 
         <tbody>
-          @for (order of getNotificationList() ; track order.orderId;){
+         <!--@for (order of getNotificationList() ; track order.orderId;){ -->
+            @for (order of orders$ | async;; track order.orderId;){
           <tr>
 
             <td>{{ order.orderId }}</td>
@@ -29,10 +30,14 @@
                 [ngClass]="{
                   'bg-success': order.orderStatus === 'SENT',
                   'bg-danger': order.orderStatus === 'FAILED',
-                  'bg-warning text-dark': order.orderStatus === 'PENDING'
+                  'bg-warning text-dark': order.orderStatus === 'PENDING',
+                  'bg-primary text-dark': order.orderStatus === 'CREATED'
                 }">
                 {{ order.orderStatus }}
               </span>
+            </td>
+            <td>
+              {{order.createdAt}}
             </td>
 
           </tr>

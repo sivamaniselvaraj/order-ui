@@ -19,7 +19,7 @@ export class WebSocketService{
 
     this.stompClient.connect({}, () => {
       this.stompClient.subscribe('/topic/notifications', (message: any) => {
-        this.notificationService.push(JSON.parse(message.body));
+        this.notificationService.pushNotification(JSON.parse(message.body));
       });
     }, () => {
       console.log('failed');
