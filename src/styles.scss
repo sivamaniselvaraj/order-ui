@@ -2,3 +2,8 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+//$spacer: 1rem;
+.mt-10 {
+  margin-top: ($spacer * 5) !important;
+}

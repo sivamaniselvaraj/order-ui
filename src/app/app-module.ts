@@ -4,19 +4,19 @@ import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
-import { CreateOrder } from './create-order/create-order';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IdempotencyInterceptor } from './interceptors/idempotencyInterceptor';
 import { Dashboard } from './dashboard/dashboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartComponent } from './cart-component/cart-component';
+import { ItemList } from './item-list/item-list';
 
 @NgModule({
   declarations: [
     App,
-    CreateOrder,
     Dashboard,
-    CartComponent
+    CartComponent,
+    ItemList
   ],
   imports: [
     BrowserModule,

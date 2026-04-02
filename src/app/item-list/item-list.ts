@@ -1,23 +1,15 @@
-import { Component, OnInit, OnDestroy, model } from '@angular/core';
-import { OrderService } from '../services/OrderService';
-import { Subscription } from 'rxjs';
-import { WebSocketService } from '../services/WebSocketService';
-import { Item } from '../models/Item';
-import { CartItem } from '../models/CartItem';
-import { OrderStatus } from '../models/OrderStatus';
-import { NgbModal, NgbToast } from '@ng-bootstrap/ng-bootstrap';
-import { CartService } from '../services/CartService';
+import { Component, OnInit } from '@angular/core';
 import { CategoryItem } from '../models/CategoryItem';
+import { CartService } from '../services/CartService';
+import { Item } from '../models/Item';
 
 @Component({
-  selector: 'app-create-order',
-  standalone: false,  // Signals are often used in standalone components
-  templateUrl: './create-order.html',
-  styleUrl: './create-order.scss',
+  selector: 'app-item-list',
+  standalone: false,
+  templateUrl: './item-list.html',
+  styleUrl: './item-list.scss',
 })
-
-
-export class CreateOrder implements OnInit {
+export class ItemList implements OnInit {
 
   showSuccess = false;
   loading = false;
@@ -185,8 +177,6 @@ export class CreateOrder implements OnInit {
 
   addToCart(item: Item) {
     this.cartService.addItem(item);
-
   }
-
 
 }
