@@ -1,6 +1,6 @@
 <div class="container mt-10">
-  <div *ngFor="let category of categories" class="mb-4">
-
+  <div class="mb-4">
+@for (category of product$ | async; track category.category;){
     <h4 class="mb-3">{{ category.category }}</h4>
 
     <!-- Items Card -->
@@ -32,5 +32,6 @@
 
       </div>
     </div>
+  }
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Item } from "./Item";
 
-export interface CategoryItem{
+export interface Product{
     category: string;
     items:Item[];
 }
