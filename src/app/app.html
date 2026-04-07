@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #efedd7;">
   <div class="container-fluid">
 
-    <a class="navbar-brand">Order System</a>
+    <a class="navbar-brand ml-2">Order System</a>
 
     <div>
-      <a routerLink="/" class="btn btn-outline-light me-2">Dashboard</a>
-      <a routerLink="/product" class="btn btn-outline-light me-2">Products</a>
-      <a routerLink="/cart" class="btn btn-outline-light">Go to Cart 🛒
+      <a routerLink="/" class="btn btn-outline me-2">Dashboard</a>
+      <a routerLink="/product" class="btn btn-outline me-2">Products</a>
+      <a routerLink="/cart" class="btn btn-outline">Go to Cart 🛒
         @if (cartCount > 0) {
         <span class="badge badge-light rounded-pill bg-danger">
           {{ cartCount }}

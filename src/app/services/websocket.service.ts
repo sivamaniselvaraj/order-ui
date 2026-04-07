@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { Subject } from 'rxjs';
-import { NotificationService } from './NotificationService';
+import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService{

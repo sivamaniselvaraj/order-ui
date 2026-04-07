@@ -1,11 +1,12 @@
 <div class="container mt-10">
-<!-- Cart -->
+  <!-- Cart -->
   <div class="card">
-    <div class="card-header bg-dark text-white">
+    <div class="card-header bg-light">
       🛒 Cart
     </div>
-
-    <div class="card-body" *ngIf="cart.length > 0; else emptyCart">
+    @let cartLength = cart.length > 0;
+    @if (cartLength) {
+    <div class="card-body">
 
       <table class="table">
         <thead>
@@ -24,21 +25,18 @@
 
             <td>
               <div class="btn-group">
-                <button class="btn btn-outline-secondary btn-sm"
-                        (click)="decreaseQuantity(i)">-</button>
+                <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQuantity(i)">-</button>
 
                 <span class="px-2">{{ item.quantity }}</span>
 
-                <button class="btn btn-outline-secondary btn-sm"
-                        (click)="increaseQuantity(i)">+</button>
+                <button class="btn btn-outline-secondary btn-sm" (click)="increaseQuantity(i)">+</button>
               </div>
             </td>
 
             <td>₹ {{ item.price * item.quantity }}</td>
 
             <td>
-              <button class="btn btn-danger btn-sm"
-                      (click)="removeItem(item)">
+              <button class="btn btn-danger btn-sm" (click)="removeItem(item)">
                 Remove
               </button>
             </td>
@@ -49,28 +47,36 @@
       </table>
 
     </div>
-
-    <ng-template #emptyCart>
-      <p class="text-muted w-100 text-center">Cart is empty. <a routerLink="/product">Add Item(s)</a></p>
-    </ng-template>
+    }
+    @else{
+    <p class="text-muted w-100 text-center">Cart is empty. <a routerLink="/product">Add Item(s)</a></p>
+    }
   </div>
 
   <!-- Total -->
   <div class="d-flex justify-content-between align-items-center mt-3">
-     <h4>@if (cart.length > 0) {
-    Total: ₹ {{ getTotal() }}
-     }&nbsp;</h4>
+    <h4>@if (cartLength) {
+    
+      Total: ₹ {{ getTotal() }}
+      &nbsp;
+    }</h4>
 
-    <button class="btn btn-primary"
-            [disabled]="cart.length === 0"
-            (click)="openConfirmModal(confirmModal)">
+    <button class="btn btn-primary" [disabled]="!cartLength" (click)="openConfirmModal(confirmModal)">
       🚀 Place Order
     </button>
   </div>
 
   <div *ngIf="loading" class="text-center">
-  <div class="spinner-border text-primary"></div>
-</div>
+    <div class="spinner-border text-primary"></div>
+  </div>
+  <!-- toaster to show the message-->
+  @if (showSuccess==true) {
+  console.log("showSuccess ", showSuccess)
+  <ngb-toast header="Success!" class="bg-success text-white position-fixed bottom-0 end-0 m-3" [autohide]="false"
+    style="z-index: 1200">
+    Order placed successfully
+  </ngb-toast>
+  }
 
 </div>
 
@@ -78,8 +84,7 @@
 <ng-template #confirmModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title">Confirm Order</h5>
-    <button type="button" class="btn-close"
-            (click)="modal.dismiss()"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
   </div>
 
   <div class="modal-body">
@@ -90,24 +95,8 @@
 
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-    <button class="btn btn-success"
-            (click)="confirmOrder(modal)">
+    <button class="btn btn-success" (click)="confirmOrder(modal)">
       Confirm
     </button>
   </div>
-</ng-template>
-
-<ng-template>
-  <!-- toaster to show the message-->
-
-  @if (showSuccess) {
-  <ngb-toast 
-  header="Success!" 
-  class="bg-success text-white position-fixed bottom-0 end-0 m-3" 
-  (hidden)="showSuccess = false"
-  style="z-index: 1200">
-    <!-- Content here -->
-  </ngb-toast>
-}
-
 </ng-template>

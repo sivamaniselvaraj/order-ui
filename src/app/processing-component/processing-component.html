@@ -1,0 +1,94 @@
+<div class="container mt-3">
+
+  <h3>⚙️ Processing Orders</h3>
+
+  <div *ngFor="let job of orders" class="card mb-4 p-3 shadow-sm">
+
+    <!-- 🧾 Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <strong>Order ID:</strong> {{ job.orderId }} <br>
+        <strong>Job ID:</strong> {{ job.jobId }} <br>
+
+        <span 
+          class="badge"
+          [ngClass]="{
+            'bg-secondary': job.jobStatus === 'CREATED',
+            'bg-info': job.jobStatus === 'IN_PROGRESS',
+            'bg-success': job.jobStatus === 'COMPLETED',
+            'bg-danger': job.jobStatus === 'FAILED'
+          }">
+          {{ job.jobStatus }}
+        </span>
+      </div>
+
+      <!-- 🎛️ Actions -->
+      <div>
+        <button 
+          class="btn btn-sm btn-primary me-2"
+          (click)="processNext({id:job.orderId, status:job.jobStatus})"
+          [disabled]="job.jobStatus === 'COMPLETED' || job.jobStatus === 'FAILED'">
+          Next ▶️
+        </button>
+
+        <button 
+          class="btn btn-sm btn-danger"
+          (click)="cancel({id:job.orderId, status:job.jobStatus})"
+          [disabled]="job.jobStatus === 'COMPLETED' || job.jobStatus === 'FAILED'">
+          Cancel ❌
+        </button>
+      </div>
+    </div>
+
+    <!-- 🧭 Timeline -->
+    <div class="timeline-container" *ngIf="job.processingStatus?.length">
+
+      <div *ngFor="let step of job.processingStatus; let i = index"
+           class="timeline-step">
+
+        <!-- Line -->
+        <div class="timeline-line" *ngIf="i !== job.processingStatus!.length - 1"></div>
+
+        <!-- Circle -->
+        <div 
+          class="timeline-circle"
+          [ngClass]="{
+            'completed': i < job.processingStatus!.length - 1,
+            'current': i === job.processingStatus!.length - 1,
+            'failed': job.jobStatus === 'FAILED'
+          }">
+
+          <span *ngIf="job.jobStatus === 'FAILED'">❌</span>
+          <span *ngIf="job.jobStatus !== 'FAILED' && i < job.processingStatus!.length - 1">✔</span>
+          <span *ngIf="job.jobStatus !== 'FAILED' && i === job.processingStatus!.length - 1">⏳</span>
+
+        </div>
+
+        <!-- Content -->
+        <div class="timeline-content">
+          <div class="title">
+            {{ step.status }}
+          </div>
+
+          <div class="time">
+            {{ step.createdAt | date:'short' }}
+          </div>
+
+          <div class="message" *ngIf="step.message">
+            {{ step.message }}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 💤 No Status Yet -->
+    <div *ngIf="!job.processingStatus || job.processingStatus!.length === 0"
+         class="text-muted">
+      No processing steps started yet...
+    </div>
+
+  </div>
+
+</div>

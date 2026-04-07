@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../models/Product';
-import { CartService } from '../services/CartService';
-import { Item } from '../models/Item';
-import { ProductService } from '../services/ProductService';
+import { Product } from '../models/product.model';
+import { CartService } from '../services/cart.service';
+import { Item } from '../models/item.model';
+import { ProductService } from '../services/product.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -26,7 +26,6 @@ export class ItemList implements OnInit {
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
-        console.log("response ", res)
         this.productSubject.next(res);
       },
       error: (err) => {

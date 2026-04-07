@@ -10,13 +10,15 @@ import { Dashboard } from './dashboard/dashboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartComponent } from './cart-component/cart-component';
 import { ItemList } from './item-list/item-list';
+import { ProcessingComponent } from './processing-component/processing-component';
 
 @NgModule({
   declarations: [
     App,
     Dashboard,
     CartComponent,
-    ItemList
+    ItemList,
+    ProcessingComponent
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,9 @@
 import { Component,OnInit } from '@angular/core';
-import { OrderService } from '../services/OrderService';
+import { OrderService } from '../services/order.service';
 import { NgbModal, NgbToast } from '@ng-bootstrap/ng-bootstrap';
-import { CartService } from '../services/CartService';
-import { CartItem } from '../models/CartItem';
-import { Item } from '../models/Item';
+import { CartService } from '../services/cart.service';
+import { CartItem } from '../models/cart-item.model';
+import { Item } from '../models/item.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,11 +16,12 @@ export class CartComponent implements OnInit {
 
    cart: CartItem[] = [];
 
-   showSuccess = true;
+  showSuccess = false;
   loading = true;
   order_number = 0;
 
-constructor(private modalService: NgbModal, private orderService: OrderService, private cartService: CartService, private router: Router){
+constructor(private modalService: NgbModal, private orderService: OrderService, private cartService: CartService, private router: Router
+){
 
 }
 openConfirmModal(content: any) {
@@ -44,14 +45,18 @@ openConfirmModal(content: any) {
           this.loading = true;
           this.order_number = res.order_id;
           this.cartService.clear()
-          setTimeout(()=>{
-              this.showSuccess=false
-             this.loading=false
-            }, 3000);
-            this.router.navigate(['/dashboard']); 
+          //this.router.navigate(['/dashboard']); 
         },
         error: () => {
           alert('❌ Failed to place order');
+        },
+        complete:() => {
+            setTimeout(()=>{
+            this.showSuccess=false;
+             this.loading=false;
+             this.router.navigate(['/dashboard']); 
+            }, 3000);
+          
         }
       });
       this.cartService.clear() // clear cart

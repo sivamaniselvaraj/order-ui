@@ -1,7 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit, signal } from '@angular/core';
-import { CartService } from './services/CartService';
-import { Subscription } from 'rxjs';
-import { WebSocketService } from './services/WebSocketService';
+import { CartService } from './services/cart.service';
+import { WebSocketService } from './services/websocket.service';
 
 @Component({
   selector: 'app-root',

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, NgZone, OnInit, OnDestroy } from '@angular/core';
-import { OrderStatus } from '../models/OrderStatus';
+import { OrderStatus } from '../models/order-status.model';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { NotificationService } from '../services/NotificationService';
-import { Notification } from '../models/Notification';
-import { OrderService } from '../services/OrderService';
-import { Order } from '../models/Order';
+import { NotificationService } from '../services/notification.service';
+import { Notification } from '../models/notification-model';
+import { OrderService } from '../services/order.service';
+import { Order } from '../models/order.model';
 
 
 @Component({

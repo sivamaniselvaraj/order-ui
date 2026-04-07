@@ -1,4 +1,4 @@
-import { Item } from "./Item";
+import { Item } from "./item.model";
 
 export interface Order {
   createdAt: string;          // ISO date string

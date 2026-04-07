@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Notification } from '../models/Notification';
-import { OrderStatus } from '../models/OrderStatus';
+import { Notification } from '../models/notification-model';
+import { OrderStatus } from '../models/order-status.model';
 
 @Injectable({
   providedIn: 'root'
