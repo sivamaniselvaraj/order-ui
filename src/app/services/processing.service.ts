@@ -14,8 +14,8 @@ export class ProcessingService {
     constructor(private http: HttpClient) { }
 
 
-    // 📦 Fetch pending orders
-    getPendingOrders(): Observable<Job[]> {
+    // 📦 Fetch all processing orders
+    getProcessingOrders(): Observable<Job[]> {
         const key = this.generateIdempotencyKey();
         localStorage.setItem('lastOrderKey', key);
         return this.http.get<Job[]>(`${this.baseUrl}/pending`, {

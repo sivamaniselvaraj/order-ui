@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class OrderService {
 
-  private baseUrl = 'http://localhost:8081/orders/';
+  private baseUrl = 'http://localhost:8081/orders';
 
 
   constructor(private http: HttpClient) { }
@@ -25,7 +25,7 @@ export class OrderService {
   getAllOrders() {
     const key = this.generateIdempotencyKey();
     localStorage.setItem('lastOrderKey', key);
-    return this.http.get<Order[]>(`${this.baseUrl}`, {
+    return this.http.get<Order[]>(`${this.baseUrl}/`, {
       headers: {
         'Idempotency-Key': key
       }

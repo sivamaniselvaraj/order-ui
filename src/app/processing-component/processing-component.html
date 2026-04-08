@@ -2,7 +2,8 @@
 
   <h3>⚙️ Processing Orders</h3>
 
-  <div *ngFor="let job of orders" class="card mb-4 p-3 shadow-sm">
+  @for (job of orders$ | async;; track job.jobId;){
+  <div class="card mb-4 p-3 shadow-sm">
 
     <!-- 🧾 Header -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -28,14 +29,14 @@
           class="btn btn-sm btn-primary me-2"
           (click)="processNext({id:job.orderId, status:job.jobStatus})"
           [disabled]="job.jobStatus === 'COMPLETED' || job.jobStatus === 'FAILED'">
-          Next ▶️
+          Next
         </button>
 
         <button 
           class="btn btn-sm btn-danger"
           (click)="cancel({id:job.orderId, status:job.jobStatus})"
           [disabled]="job.jobStatus === 'COMPLETED' || job.jobStatus === 'FAILED'">
-          Cancel ❌
+          Cancel
         </button>
       </div>
     </div>
@@ -90,5 +91,6 @@
     </div>
 
   </div>
+}
 
 </div>

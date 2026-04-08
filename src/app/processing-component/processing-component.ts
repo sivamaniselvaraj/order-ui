@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProcessingService } from '../services/processing.service';
 import { ProcessingOrder } from '../models/processing-order.model';
 import { Job } from '../services/job.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-processing',
@@ -10,7 +11,9 @@ import { Job } from '../services/job.model';
 })
 export class ProcessingComponent implements OnInit {
 
-  orders: Job[] = [];
+
+   private ordersSubject = new BehaviorSubject<Job[]>([]);
+    orders$ = this.ordersSubject.asObservable();
 
   // 🧭 Steps
   steps = ['VALIDATING', 'PAYMENT', 'COMPLIANCE', 'APPROVAL', 'COMPLETED'];
@@ -23,8 +26,8 @@ export class ProcessingComponent implements OnInit {
 
   // 📦 Load pending orders
   loadOrders() {
-    this.processingService.getPendingOrders().subscribe({
-      next: (data) => this.orders = data,
+    this.processingService.getProcessingOrders().subscribe({
+      next: (data) => this.ordersSubject.next(data),
       error: (err) => console.error('Error loading orders', err)
     });
   }
